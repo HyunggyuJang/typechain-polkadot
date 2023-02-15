@@ -38,6 +38,7 @@ import type { EventRecord } from "@polkadot/api/submittable";
 import { TypeTS } from "@arthswap/typechain-polkadot-parser/src/types/TypeInfo";
 
 type SignAndSendSuccessResponse = {
+	wait: Promise<void>;
 	from: string;
 	txHash?: string;
 	blockHash?: string;
@@ -141,6 +142,9 @@ export async function _signAndSend(
 							);
 						if (!result.isError && !result.dispatchError) {
 							actionStatus.result = result;
+							actionStatus.wait = new Promise((resolve) => {
+								if (result.status.isFinalized) resolve()
+							})
 							resolve(actionStatus);
 						} else {
 							let message = 'Transaction failed';
