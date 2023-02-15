@@ -20,11 +20,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import BN from 'bn.js';
-// @ts-ignore
-import type { ContractExecResultErr } from '@polkadot/types/interfaces/contracts/types';
+import type { ContractExecResultResult } from '@polkadot/types/interfaces/contracts/types';
 import type {AnyJson} from "@polkadot/types-codec/types";
-import fs from "fs";
 import {WeightV2} from "@polkadot/types/interfaces";
+
+type DispatchError = ContractExecResultResult['asErr']
 
 export type RequestArgumentType = number | string | boolean | bigint
 	| (string | number)[]
@@ -75,10 +75,10 @@ export type QueryCallError = MethodDoesntExistError | ErrorWithTexts & (
 	} | {
 		issue : 'FAIL_AFTER_CALL::IS_ERROR';
 		_resultIsOk : boolean;
-		_asError ? : ContractExecResultErr;
+		_asError ? : DispatchError;
 	} | {
 		issue : 'FAIL_AFTER_CALL::RESULT_NOT_OK';
-		_asError ? : ContractExecResultErr;
+		_asError ? : DispatchError;
 	} | {
 		issue : 'OUTPUT_IS_NULL',
 	}
@@ -156,6 +156,10 @@ export class ReturnNumber {
 
 	toNumber() {
 		return this.rawNumber.toNumber();
+	}
+
+	toBigInt() {
+		return BigInt(this.toString());
 	}
 
 	static ToBN(value: number | string) {

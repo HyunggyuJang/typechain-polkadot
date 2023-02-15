@@ -37,8 +37,8 @@ const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
 
 type QueryReturnType<T> = {
 	value : T;
-	gasConsumed : Weight;
-	gasRequired : Weight;
+	gasConsumed : WeightV2;
+	gasRequired : WeightV2;
 };
 
 export type {

@@ -28,13 +28,14 @@ import {
 } from './query';
 import type {
 	SubmittableExtrinsic,
+	SignerOptions
 } from '@polkadot/api/submittable/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Registry } from '@polkadot/types-codec/types';
-import type {ApiPromise, SubmittableResult} from "@polkadot/api";
+import type { ApiPromise, SubmittableResult } from "@polkadot/api";
 // @ts-ignore
-import type {EventRecord} from "@polkadot/api/submittable";
-import {TypeTS} from "@727-ventures/typechain-polkadot-parser/src/types/TypeInfo";
+import type { EventRecord } from "@polkadot/api/submittable";
+import { TypeTS } from "@727-ventures/typechain-polkadot-parser/src/types/TypeInfo";
 
 type SignAndSendSuccessResponse = {
 	from: string;
@@ -56,14 +57,15 @@ export type {
 
 export async function txSignAndSend(
 	nativeAPI: ApiPromise,
-	nativeContract : ContractPromise,
-	keyringPair : KeyringPair,
-	title : string,
-	eventHandler : (event: EventRecord[]) => {
+	nativeContract: ContractPromise,
+	keyringPair: KeyringPair,
+	title: string,
+	eventHandler: (event: EventRecord[]) => {
 		[index: string]: any;
 	},
-	args ? : readonly RequestArgumentType[],
-	gasLimitAndValue ? : GasLimitAndValue,
+	args?: readonly RequestArgumentType[],
+	gasLimitAndValue?: GasLimitAndValue,
+	signerOptions?: Partial<SignerOptions>
 ) {
 	const _gasLimitAndValue = await _genValidGasLimitAndValue(nativeAPI, gasLimitAndValue);
 
@@ -71,18 +73,18 @@ export async function txSignAndSend(
 		nativeAPI, nativeContract,
 		title, args, _gasLimitAndValue,
 	);
-	return _signAndSend(nativeAPI.registry, submittableExtrinsic, keyringPair, eventHandler);
+	return _signAndSend(nativeAPI.registry, submittableExtrinsic, keyringPair, eventHandler, signerOptions);
 }
 
 export function buildSubmittableExtrinsic(
 	api: ApiPromise,
-	nativeContract : ContractPromise,
-	title : string,
-	args ? : readonly RequestArgumentType[],
-	gasLimitAndValue ? : GasLimitAndValue,
+	nativeContract: ContractPromise,
+	title: string,
+	args?: readonly RequestArgumentType[],
+	gasLimitAndValue?: GasLimitAndValue,
 ) {
-	if(nativeContract.tx[title] == null) {
-		const error : MethodDoesntExistError = {
+	if (nativeContract.tx[title] == null) {
+		const error: MethodDoesntExistError = {
 			issue: 'METHOD_DOESNT_EXIST',
 			texts: [`Method name: '${title}'`],
 		};
@@ -108,9 +110,10 @@ export async function _signAndSend(
 	registry: Registry,
 	extrinsic: SubmittableExtrinsic<'promise'>,
 	signer: KeyringPair,
-	eventHandler : (event: EventRecord[]) => {
+	eventHandler: (event: EventRecord[]) => {
 		[index: string]: any;
 	},
+	signerOptions?: Partial<SignerOptions>
 ): Promise<SignAndSendSuccessResponse> {
 	const signerAddress = signer.address;
 
@@ -122,7 +125,8 @@ export async function _signAndSend(
 
 		extrinsic
 			.signAndSend(
-				signer,
+				signerOptions ? signerAddress : signer,
+				{ nonce: -1, ...signerOptions },
 				(result: SubmittableResult) => {
 					if (result.status.isInBlock) {
 						actionStatus.blockHash = result.status.asInBlock.toHex();
@@ -134,45 +138,23 @@ export async function _signAndSend(
 						result.events
 							.filter(
 								({ event: { section } }: any): boolean => section === 'system'
-							)
-							.forEach((event: any): void => {
-								const {
-									event: { data, method },
-								} = event;
+							);
+						if (!result.isError && !result.dispatchError) {
+							actionStatus.result = result;
+							resolve(actionStatus);
+						} else {
+							let message = 'Transaction failed';
 
-								if (method === 'ExtrinsicFailed') {
-									const [dispatchError] = data;
-									let message = dispatchError.type;
+							if (result.dispatchError?.isModule) {
+								const decoded = registry.findMetaError(result.dispatchError.asModule);
+								message = `${decoded?.section.toUpperCase()}.${decoded?.method}: ${decoded?.docs}`;
+								actionStatus.error = {
+									message,
+								};
 
-									if (dispatchError.isModule) {
-										try {
-											const mod = dispatchError.asModule;
-											const error = registry.findMetaError(
-												new Uint8Array([
-													mod.index.toNumber(),
-													mod.error.toNumber()
-												])
-											);
-											message = `${error.section}.${error.name}${
-												Array.isArray(error.docs)
-													? `(${error.docs.join('')})`
-													: error.docs || ''
-											}`;
-										} catch (error) {
-											// swallow
-										}
-									}
-
-									actionStatus.error = {
-										message,
-									};
-
-									reject(actionStatus);
-								} else if (method === 'ExtrinsicSuccess') {
-									actionStatus.result = result;
-									resolve(actionStatus as SignAndSendSuccessResponse);
-								}
-							});
+								reject(actionStatus);
+							}
+						}
 					} else if (result.isError) {
 						actionStatus.error = {
 							data: result,
