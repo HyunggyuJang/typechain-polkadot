@@ -1,6 +1,6 @@
 {
   "name": "@HyunggyuJang/typechain-polkadot-parser",
-  "version": "0.3.6.0",
+  "version": "0.3.6a",
   "description": "Parser that can generate typescript definitions from ABI of the contract",
   "scripts": {
     "test": "ts-node index.ts"

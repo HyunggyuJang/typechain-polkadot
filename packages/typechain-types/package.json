@@ -1,6 +1,6 @@
 {
   "name": "@HyunggyuJang/typechain-types",
-  "version": "0.0.22.0",
+  "version": "0.0.22a",
   "description": "Types and utility function for TypeChain",
   "repository": {
     "type": "git",
