@@ -79,12 +79,12 @@ function queryJSON(api, nativeContract, callerAddress, title, args, gasLimitAndV
         return json;
     }; }
     return __awaiter(this, void 0, void 0, function () {
-        var _a, output, gasConsumed, gasRequired, _value, error;
+        var _a, output, gasConsumed, gasRequired, storageDeposit, _value, error;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, queryOutput(api, nativeContract, callerAddress, title, args, gasLimitAndValue)];
                 case 1:
-                    _a = _b.sent(), output = _a.output, gasConsumed = _a.gasConsumed, gasRequired = _a.gasRequired;
+                    _a = _b.sent(), output = _a.output, gasConsumed = _a.gasConsumed, gasRequired = _a.gasRequired, storageDeposit = _a.storageDeposit;
                     _value = output.toJSON();
                     if (_value && typeof _value === 'object') {
                         if ('err' in _value) {
@@ -101,6 +101,7 @@ function queryJSON(api, nativeContract, callerAddress, title, args, gasLimitAndV
                             value: handler(output.toJSON()),
                             gasConsumed: gasConsumed,
                             gasRequired: gasRequired,
+                            storageDeposit: storageDeposit
                         }];
             }
         });
@@ -119,12 +120,12 @@ title, args, gasLimitAndValue, handler) {
         return json;
     }; }
     return __awaiter(this, void 0, void 0, function () {
-        var _a, output, gasConsumed, gasRequired, _value, error;
+        var _a, output, gasConsumed, gasRequired, storageDeposit, _value, error;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, queryOutput(api, nativeContract, callerAddress, title, args, gasLimitAndValue)];
                 case 1:
-                    _a = _b.sent(), output = _a.output, gasConsumed = _a.gasConsumed, gasRequired = _a.gasRequired;
+                    _a = _b.sent(), output = _a.output, gasConsumed = _a.gasConsumed, gasRequired = _a.gasRequired, storageDeposit = _a.storageDeposit;
                     _value = output.toJSON();
                     if (_value == null || typeof _value !== 'object') {
                         error = {
@@ -137,6 +138,7 @@ title, args, gasLimitAndValue, handler) {
                             value: handler(_value),
                             gasConsumed: gasConsumed,
                             gasRequired: gasRequired,
+                            storageDeposit: storageDeposit
                         }];
             }
         });
@@ -150,7 +152,7 @@ function queryOutput(api, nativeContract, callerAddress,
 //
 title, args, gasLimitAndValue) {
     return __awaiter(this, void 0, void 0, function () {
-        var contractAddress, error_1, _args, _gasLimitAndValue, response, error, caughtError_1, gasConsumed, result, output, gasRequired, resValueStr, resValueJSON;
+        var contractAddress, error_1, _args, _gasLimitAndValue, response, error, caughtError_1, gasConsumed, result, output, gasRequired, storageDeposit, resValueStr, resValueJSON;
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -184,7 +186,7 @@ title, args, gasLimitAndValue) {
                     console.error("\nContract.queryString(".concat(title, ") error:"), "\n > error:", error, '\n');
                     throw error;
                 case 5:
-                    gasConsumed = response.gasConsumed, result = response.result, output = response.output, gasRequired = response.gasRequired;
+                    gasConsumed = response.gasConsumed, result = response.result, output = response.output, gasRequired = response.gasRequired, storageDeposit = response.storageDeposit;
                     resValueStr = output ? output.toString() : null;
                     resValueJSON = output ? output.toJSON() : null;
                     if (result.isErr)
@@ -208,6 +210,7 @@ title, args, gasLimitAndValue) {
                             output: output,
                             gasConsumed: gasConsumed,
                             gasRequired: gasRequired,
+                            storageDeposit: storageDeposit,
                         }];
             }
         });

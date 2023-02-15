@@ -1,10 +1,10 @@
 {
-  "name": "@hyunggyujang/typechain-types",
+  "name": "@arthswap/typechain-types",
   "version": "0.0.23",
   "description": "Types and utility function for TypeChain",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HyunggyuJang/typechain-polkadot.git"
+    "url": "git+https://github.com/ArthSwap/typechain-polkadot.git"
   },
   "author": "Supercolony-net",
   "license": "MIT",

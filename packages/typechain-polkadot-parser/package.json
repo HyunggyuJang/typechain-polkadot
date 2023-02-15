@@ -1,5 +1,5 @@
 {
-  "name": "@hyunggyujang/typechain-polkadot-parser",
+  "name": "@arthswap/typechain-polkadot-parser",
   "version": "0.3.6",
   "description": "Parser that can generate typescript definitions from ABI of the contract",
   "scripts": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HyunggyuJang/typechain-polkadot.git"
+    "url": "git+https://github.com/ArthSwap/typechain-polkadot.git"
   },
   "author": "Supercolony-net",
   "license": "MIT",

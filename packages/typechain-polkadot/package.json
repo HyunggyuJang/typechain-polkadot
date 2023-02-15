@@ -1,5 +1,5 @@
 {
-  "name": "@hyunggyujang/typechain-polkadot",
+  "name": "@arthswap/typechain-polkadot",
   "version": "0.6.10",
   "scripts": {
     "start": "ts-node index.ts --in artifacts --out out",
@@ -21,7 +21,7 @@
   },
   "engineStrict": true,
   "dependencies": {
-    "@HyunggyuJang/typechain-polkadot-parser": "^0.3.7",
+    "@ArthSwap/typechain-polkadot-parser": "^0.3.7",
     "@polkadot/api": "^9.13.4",
     "@polkadot/api-contract": "^9.13.4",
     "@polkadot/keyring": "^10.2.1",
@@ -37,7 +37,7 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "@HyunggyuJang/typechain-types": "^0.0.22",
+    "@ArthSwap/typechain-types": "^0.0.22",
     "@types/bn.js": "^5.1.0",
     "@types/eslint": "^8.4.3",
     "@types/jest": "^27.5.2",
