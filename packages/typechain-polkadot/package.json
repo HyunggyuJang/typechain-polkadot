@@ -1,6 +1,6 @@
 {
   "name": "@HyunggyuJang/typechain-polkadot",
-  "version": "0.6.11",
+  "version": "0.6.9",
   "scripts": {
     "start": "ts-node index.ts --in artifacts --out out",
     "lint": "eslint \"{src,tests}/**/*.{js,jsx,ts,tsx}\"",
@@ -60,5 +60,5 @@
   "bugs": {
     "url": "https://github.com/Supercolony-net/typechain-polkadot/issues"
   },
-  "gitHead": "fe4c3cbc02a1c7f85a0e1fa390bb74b3cb9d6867"
+  "gitHead": "b3f5df1884e288a2c7864ad3b401ac5f240532ea"
 }

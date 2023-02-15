@@ -1,12 +1,12 @@
 import type { ContractPromise } from "@polkadot/api-contract";
 import type { AnyJson } from '@polkadot/types-codec/types';
 import type { RequestArgumentType, GasLimitAndValue } from './types';
-import { Weight } from '@polkadot/types/interfaces';
+import { Weight, WeightV2 } from '@polkadot/types/interfaces';
 import { ApiPromise } from "@polkadot/api";
 type QueryReturnType<T> = {
     value: T;
-    gasConsumed: Weight;
-    gasRequired: Weight;
+    gasConsumed: WeightV2;
+    gasRequired: WeightV2;
 };
 export type { QueryReturnType, };
 export { _genValidGasLimitAndValue, };

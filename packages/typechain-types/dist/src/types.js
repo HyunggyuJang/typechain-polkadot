@@ -82,6 +82,9 @@ var ReturnNumber = /** @class */ (function () {
     ReturnNumber.prototype.toNumber = function () {
         return this.rawNumber.toNumber();
     };
+    ReturnNumber.prototype.toBigInt = function () {
+        return BigInt(this.toString());
+    };
     ReturnNumber.ToBN = function (value) {
         return new ReturnNumber(value).rawNumber;
     };

@@ -1,7 +1,8 @@
 import BN from 'bn.js';
-import type { ContractExecResultErr } from '@polkadot/types/interfaces/contracts/types';
+import type { ContractExecResultResult } from '@polkadot/types/interfaces/contracts/types';
 import type { AnyJson } from "@polkadot/types-codec/types";
 import { WeightV2 } from "@polkadot/types/interfaces";
+type DispatchError = ContractExecResultResult['asErr'];
 export type RequestArgumentType = number | string | boolean | bigint | (string | number)[] | BN | null | AnyJson | Object;
 export interface GasLimit {
     /**
@@ -38,10 +39,10 @@ export type QueryCallError = MethodDoesntExistError | ErrorWithTexts & ({
 } | {
     issue: 'FAIL_AFTER_CALL::IS_ERROR';
     _resultIsOk: boolean;
-    _asError?: ContractExecResultErr;
+    _asError?: DispatchError;
 } | {
     issue: 'FAIL_AFTER_CALL::RESULT_NOT_OK';
-    _asError?: ContractExecResultErr;
+    _asError?: DispatchError;
 } | {
     issue: 'OUTPUT_IS_NULL';
 });
@@ -69,10 +70,12 @@ export declare class ReturnNumber {
     toString(): string;
     toHuman(): string;
     toNumber(): number;
+    toBigInt(): bigint;
     static ToBN(value: number | string): BN;
 }
 export interface ReturnedEvent {
     name: string;
     args: Record<string, AnyJson>;
 }
+export {};
 //# sourceMappingURL=types.d.ts.map
