@@ -1,6 +1,6 @@
 {
   "name": "@arthswap/typechain-polkadot-parser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Parser that can generate typescript definitions from ABI of the contract",
   "scripts": {
     "test": "ts-node index.ts"
