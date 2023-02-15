@@ -1,8 +1,9 @@
 import type * as EventTypes from '../event-types/{{{fileName}}}';
+import EVENT_TYPE from '../event-data/{{{fileName}}}.json';
 import type {ContractPromise} from "@polkadot/api-contract";
 import type {ApiPromise} from "@polkadot/api";
-import {getEventTypeDescription} from "../shared/utils";
 import {handleEventReturn} from "@727-ventures/typechain-types";
+export { EVENT_TYPE }
 
 export default class EventsClass {
 	private __nativeContract : ContractPromise;
@@ -25,7 +26,7 @@ export default class EventsClass {
 				_event[event.args[i]!.name] = args[i]!.toJSON();
 			}
 
-			callback(handleEventReturn(_event, getEventTypeDescription('{{name}}', '{{../fileName}}')) as EventTypes.{{name}});
+			callback(handleEventReturn(_event, EVENT_TYPE['{{name}}']) as EventTypes.{{name}});
 		};
 
 		return this.__subscribeOnEvent(callbackWrapper, (eventName : string) => eventName == '{{name}}');

@@ -2,6 +2,7 @@
 
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { KeyringPair } from '@polkadot/keyring/types';
+import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { ApiPromise } from '@polkadot/api';
 import type { GasLimit, GasLimitAndRequiredValue, Result } from '@727-ventures/typechain-types';
 import { txSignAndSend } from '@727-ventures/typechain-types';
@@ -10,6 +11,7 @@ import type BN from 'bn.js';
 // @ts-ignore
 import type {EventRecord} from "@polkadot/api/submittable";
 import {decodeEvents} from "../shared/utils";
+import { EVENT_TYPE } from "../events/{{{fileName}}}";
 {{#if additionalImports.length}}
 {{#each additionalImports}}
 import { {{#each values}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}} } from '{{{path}}}';
@@ -43,10 +45,11 @@ export default class Methods {
 		{{{name}}}: {{{type.tsStr}}},
 	{{/each}}
 		__options ? : {{#if payable}}GasLimitAndRequiredValue{{else}}GasLimit{{/if}},
+		__signerOptions ? : Partial<SignerOptions>,
 	){{{buildReturnType this}}}{
 		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, "{{../fileName}}");
-		}, [{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options);
+			return decodeEvents(events, this.__nativeContract, EVENT_TYPE);
+		}, [{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options, __signerOptions);
 	}
 
 {{/each}}
