@@ -1,6 +1,6 @@
 {
-  "name": "@HyunggyuJang/typechain-polkadot",
-  "version": "0.6.10a",
+  "name": "@hyunggyujang/typechain-polkadot",
+  "version": "0.6.9",
   "scripts": {
     "start": "ts-node index.ts --in artifacts --out out",
     "lint": "eslint \"{src,tests}/**/*.{js,jsx,ts,tsx}\"",
@@ -55,10 +55,13 @@
   "homepage": "https://github.com/Supercolony-net/typechain-polkadot#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Supercolony-net/typechain-polkadot.git"
+    "url": "git+https://github.com/HyungyuJang/typechain-polkadot.git"
   },
   "bugs": {
     "url": "https://github.com/Supercolony-net/typechain-polkadot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "gitHead": "b3f5df1884e288a2c7864ad3b401ac5f240532ea"
 }

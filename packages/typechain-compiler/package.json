@@ -1,6 +1,6 @@
 {
-  "name": "@HyunggyuJang/typechain-compiler",
-  "version": "0.5.15a",
+  "name": "@hyunggyujang/typechain-compiler",
+  "version": "0.5.14",
   "description": "Util to test and compile your rust project",
   "bin": {
     "typechain-compiler": "bin/index.js"
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Supercolony-net/typechain-polkadot.git"
+    "url": "git+https://github.com/HyunggyuJang/typechain-polkadot.git"
   },
   "files": [
     "index.ts",
@@ -44,6 +44,9 @@
   "devDependencies": {
     "tsc": "^2.0.4",
     "typescript": "^4.7.4"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "gitHead": "b3f5df1884e288a2c7864ad3b401ac5f240532ea"
 }
