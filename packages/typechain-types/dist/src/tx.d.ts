@@ -1,6 +1,6 @@
 import type { ContractPromise } from "@polkadot/api-contract";
 import type { RequestArgumentType, GasLimitAndValue } from './types';
-import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { SubmittableExtrinsic, SignerOptions } from '@polkadot/api/submittable/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiPromise, SubmittableResult } from "@polkadot/api";
@@ -21,7 +21,7 @@ type SignAndSendSuccessResponse = {
 export type { SignAndSendSuccessResponse, };
 export declare function txSignAndSend(nativeAPI: ApiPromise, nativeContract: ContractPromise, keyringPair: KeyringPair, title: string, eventHandler: (event: EventRecord[]) => {
     [index: string]: any;
-}, args?: readonly RequestArgumentType[], gasLimitAndValue?: GasLimitAndValue): Promise<SignAndSendSuccessResponse>;
+}, args?: readonly RequestArgumentType[], gasLimitAndValue?: GasLimitAndValue, signerOptions?: Partial<SignerOptions>): Promise<SignAndSendSuccessResponse>;
 export declare function buildSubmittableExtrinsic(api: ApiPromise, nativeContract: ContractPromise, title: string, args?: readonly RequestArgumentType[], gasLimitAndValue?: GasLimitAndValue): SubmittableExtrinsic<"promise", import("@polkadot/types/types").ISubmittableResult>;
 /**
  * (i) For reference, see:
@@ -30,5 +30,5 @@ export declare function buildSubmittableExtrinsic(api: ApiPromise, nativeContrac
  */
 export declare function _signAndSend(registry: Registry, extrinsic: SubmittableExtrinsic<'promise'>, signer: KeyringPair, eventHandler: (event: EventRecord[]) => {
     [index: string]: any;
-}): Promise<SignAndSendSuccessResponse>;
+}, signerOptions?: Partial<SignerOptions>): Promise<SignAndSendSuccessResponse>;
 //# sourceMappingURL=tx.d.ts.map

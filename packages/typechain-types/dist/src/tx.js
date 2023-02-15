@@ -19,6 +19,17 @@
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -67,7 +78,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports._signAndSend = exports.buildSubmittableExtrinsic = exports.txSignAndSend = void 0;
 var query_1 = require("./query");
-function txSignAndSend(nativeAPI, nativeContract, keyringPair, title, eventHandler, args, gasLimitAndValue) {
+function txSignAndSend(nativeAPI, nativeContract, keyringPair, title, eventHandler, args, gasLimitAndValue, signerOptions) {
     return __awaiter(this, void 0, void 0, function () {
         var _gasLimitAndValue, submittableExtrinsic;
         return __generator(this, function (_a) {
@@ -76,7 +87,7 @@ function txSignAndSend(nativeAPI, nativeContract, keyringPair, title, eventHandl
                 case 1:
                     _gasLimitAndValue = _a.sent();
                     submittableExtrinsic = buildSubmittableExtrinsic(nativeAPI, nativeContract, title, args, _gasLimitAndValue);
-                    return [2 /*return*/, _signAndSend(nativeAPI.registry, submittableExtrinsic, keyringPair, eventHandler)];
+                    return [2 /*return*/, _signAndSend(nativeAPI.registry, submittableExtrinsic, keyringPair, eventHandler, signerOptions)];
             }
         });
     });
@@ -101,7 +112,7 @@ exports.buildSubmittableExtrinsic = buildSubmittableExtrinsic;
  * 	- https://polkadot.js.org/docs/api/cookbook/tx#how-do-i-get-the-decoded-enum-for-an-extrinsicfailed-event
  * 	- `@redspot/patract/buildTx`
  */
-function _signAndSend(registry, extrinsic, signer, eventHandler) {
+function _signAndSend(registry, extrinsic, signer, eventHandler, signerOptions) {
     return __awaiter(this, void 0, void 0, function () {
         var signerAddress;
         return __generator(this, function (_a) {
@@ -112,7 +123,8 @@ function _signAndSend(registry, extrinsic, signer, eventHandler) {
                         txHash: extrinsic.hash.toHex(),
                     };
                     extrinsic
-                        .signAndSend(signer, function (result) {
+                        .signAndSend(signerOptions ? signerAddress : signer, __assign({ nonce: -1 }, signerOptions), function (result) {
+                        var _a;
                         if (result.status.isInBlock) {
                             actionStatus.blockHash = result.status.asInBlock.toHex();
                         }
@@ -122,37 +134,22 @@ function _signAndSend(registry, extrinsic, signer, eventHandler) {
                                 .filter(function (_a) {
                                 var section = _a.event.section;
                                 return section === 'system';
-                            })
-                                .forEach(function (event) {
-                                var _a = event.event, data = _a.data, method = _a.method;
-                                if (method === 'ExtrinsicFailed') {
-                                    var dispatchError = data[0];
-                                    var message = dispatchError.type;
-                                    if (dispatchError.isModule) {
-                                        try {
-                                            var mod = dispatchError.asModule;
-                                            var error = registry.findMetaError(new Uint8Array([
-                                                mod.index.toNumber(),
-                                                mod.error.toNumber()
-                                            ]));
-                                            message = "".concat(error.section, ".").concat(error.name).concat(Array.isArray(error.docs)
-                                                ? "(".concat(error.docs.join(''), ")")
-                                                : error.docs || '');
-                                        }
-                                        catch (error) {
-                                            // swallow
-                                        }
-                                    }
+                            });
+                            if (!result.isError && !result.dispatchError) {
+                                actionStatus.result = result;
+                                resolve(actionStatus);
+                            }
+                            else {
+                                var message = 'Transaction failed';
+                                if ((_a = result.dispatchError) === null || _a === void 0 ? void 0 : _a.isModule) {
+                                    var decoded = registry.findMetaError(result.dispatchError.asModule);
+                                    message = "".concat(decoded === null || decoded === void 0 ? void 0 : decoded.section.toUpperCase(), ".").concat(decoded === null || decoded === void 0 ? void 0 : decoded.method, ": ").concat(decoded === null || decoded === void 0 ? void 0 : decoded.docs);
                                     actionStatus.error = {
                                         message: message,
                                     };
                                     reject(actionStatus);
                                 }
-                                else if (method === 'ExtrinsicSuccess') {
-                                    actionStatus.result = result;
-                                    resolve(actionStatus);
-                                }
-                            });
+                            }
                         }
                         else if (result.isError) {
                             actionStatus.error = {

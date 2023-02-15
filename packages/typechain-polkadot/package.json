@@ -21,10 +21,10 @@
   },
   "engineStrict": true,
   "dependencies": {
+    "@HyunggyuJang/typechain-polkadot-parser": "^0.3.7",
     "@polkadot/api": "^9.13.4",
     "@polkadot/api-contract": "^9.13.4",
     "@polkadot/keyring": "^10.2.1",
-    "@HyunggyuJang/typechain-polkadot-parser": "0.3.6",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.11.18",
     "@types/yargs": "^17.0.10",
@@ -60,5 +60,5 @@
   "bugs": {
     "url": "https://github.com/Supercolony-net/typechain-polkadot/issues"
   },
-  "gitHead": "fe4c3cbc02a1c7f85a0e1fa390bb74b3cb9d6867"
+  "gitHead": "b3f5df1884e288a2c7864ad3b401ac5f240532ea"
 }
