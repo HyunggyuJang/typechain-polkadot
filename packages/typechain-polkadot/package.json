@@ -1,6 +1,6 @@
 {
   "name": "@arthswap/typechain-polkadot",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "ts-node index.ts --in artifacts --out out",
     "lint": "eslint \"{src,tests}/**/*.{js,jsx,ts,tsx}\"",
