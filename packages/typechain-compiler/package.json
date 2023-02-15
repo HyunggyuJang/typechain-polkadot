@@ -1,6 +1,6 @@
 {
   "name": "@arthswap/typechain-compiler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Util to test and compile your rust project",
   "bin": {
     "typechain-compiler": "bin/index.js"
