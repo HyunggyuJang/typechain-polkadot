@@ -35,7 +35,7 @@ import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiPromise, SubmittableResult } from "@polkadot/api";
 // @ts-ignore
 import type { EventRecord } from "@polkadot/api/submittable";
-import { TypeTS } from "@727-ventures/typechain-polkadot-parser/src/types/TypeInfo";
+import { TypeTS } from "@arthswap/typechain-polkadot-parser/src/types/TypeInfo";
 
 type SignAndSendSuccessResponse = {
 	from: string;

@@ -33,8 +33,8 @@
  *  @example
  *  # Usage from CLI
  *  ```bash
- *     $ npm i @727-ventures/typechain-polkadot
- *     $ npx @727-ventures/typechain-polkadot --in path/to/abis --out path/to/output/folder
+ *     $ npm i @arthswap/typechain-polkadot
+ *     $ npx @arthswap/typechain-polkadot --in path/to/abis --out path/to/output/folder
  *  ```
  *
  *  @packageDocumentation

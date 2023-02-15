@@ -2,15 +2,15 @@
 
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ApiPromise } from '@polkadot/api';
-import type { GasLimit, GasLimitAndRequiredValue, Result } from '@727-ventures/typechain-types';
-import type { QueryReturnType } from '@727-ventures/typechain-types';
-import { queryJSON, queryOkJSON, handleReturnType } from '@727-ventures/typechain-types';
+import type { GasLimit, GasLimitAndRequiredValue, Result } from '@arthswap/typechain-types';
+import type { QueryReturnType } from '@arthswap/typechain-types';
+import { queryJSON, queryOkJSON, handleReturnType } from '@arthswap/typechain-types';
 import type * as ArgumentTypes from '../types-arguments/{{{fileName}}}';
 import type * as ReturnTypes from '../types-returns/{{{fileName}}}';
 import type BN from 'bn.js';
 import TYPE from '../data/{{{fileName}}}.json'
 //@ts-ignore
-import {ReturnNumber} from '@727-ventures/typechain-types';
+import {ReturnNumber} from '@arthswap/typechain-types';
 {{#if additionalImports.length}}
 {{#each additionalImports}}
 import { {{#each values}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}} } from '{{{path}}}';

@@ -1,5 +1,5 @@
 import type {ContractPromise} from "@polkadot/api-contract";
-import {handleEventReturn} from "@727-ventures/typechain-types";
+import {handleEventReturn} from "@arthswap/typechain-types";
 
 export function decodeEvents(events: any[], contract: ContractPromise, EVENT_TYPE: any): any[] {
 	return events.filter((record: any) => {

@@ -3,16 +3,16 @@
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ApiPromise } from '@polkadot/api';
 import type { KeyringPair } from '@polkadot/keyring/types';
-import type { GasLimit, GasLimitAndRequiredValue, Result } from '@727-ventures/typechain-types';
-import type { QueryReturnType } from '@727-ventures/typechain-types';
-import { queryOkJSON, queryJSON, handleReturnType } from '@727-ventures/typechain-types';
-import { txSignAndSend } from '@727-ventures/typechain-types';
+import type { GasLimit, GasLimitAndRequiredValue, Result } from '@arthswap/typechain-types';
+import type { QueryReturnType } from '@arthswap/typechain-types';
+import { queryOkJSON, queryJSON, handleReturnType } from '@arthswap/typechain-types';
+import { txSignAndSend } from '@arthswap/typechain-types';
 import type * as ArgumentTypes from '../types-arguments/{{{fileName}}}';
 import type * as ReturnTypes from '../types-returns/{{{fileName}}}';
 import type BN from 'bn.js';
 import {TYPE} from "../query/{{{fileName}}}"
 //@ts-ignore
-import {ReturnNumber} from '@727-ventures/typechain-types';
+import {ReturnNumber} from '@arthswap/typechain-types';
 // @ts-ignore
 import type {EventRecord} from "@polkadot/api/submittable";
 import {decodeEvents} from "../shared/utils";
