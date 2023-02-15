@@ -27,7 +27,7 @@ import type {
 	QueryCallError, QueryOkCallError,
 } from './types';
 import {Result, ResultBuilder, ReturnNumber} from "./types";
-import {Weight, WeightV2} from '@polkadot/types/interfaces';
+import {Weight, WeightV2, StorageDeposit} from '@polkadot/types/interfaces';
 import {ApiPromise} from "@polkadot/api";
 import { BN_ONE, BN_ZERO, BN_HUNDRED } from '@polkadot/util';
 import {BN} from "bn.js";
@@ -37,8 +37,9 @@ const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
 
 type QueryReturnType<T> = {
 	value : T;
-	gasConsumed : WeightV2;
-	gasRequired : WeightV2;
+	gasConsumed : Weight;
+	gasRequired : Weight;
+	storageDeposit : StorageDeposit
 };
 
 export type {
@@ -63,7 +64,7 @@ export async function queryJSON<T>(
 		return json as unknown as T;
 	},
 ) : Promise< QueryReturnType<T> > {
-	const { output, gasConsumed, gasRequired } = await queryOutput(
+	const { output, gasConsumed, gasRequired, storageDeposit } = await queryOutput(
 		api, nativeContract, callerAddress,
 		title, args, gasLimitAndValue,
 	);
@@ -85,6 +86,7 @@ export async function queryJSON<T>(
 		value: handler(output.toJSON()),
 		gasConsumed,
 		gasRequired,
+		storageDeposit
 	};
 }
 
@@ -105,7 +107,7 @@ export async function queryOkJSON<T>(
 		return json as unknown as T;
 	},
 ) : Promise< QueryReturnType<T> > {
-	const { output, gasConsumed, gasRequired } = await queryOutput(
+	const { output, gasConsumed, gasRequired, storageDeposit } = await queryOutput(
 		api, nativeContract, callerAddress,
 		title, args, gasLimitAndValue,
 	);
@@ -123,6 +125,7 @@ export async function queryOkJSON<T>(
 		value: handler(_value),
 		gasConsumed,
 		gasRequired,
+		storageDeposit
 	};
 }
 
@@ -177,6 +180,7 @@ export async function queryOutput(
 		result,
 		output,
 		gasRequired,
+		storageDeposit,
 	} = response;
 
 	const resValueStr = output ? output.toString() : null;
@@ -201,8 +205,9 @@ export async function queryOutput(
 
 	return {
 		output: output!,
-		gasConsumed: gasConsumed,
-		gasRequired: gasRequired,
+		gasConsumed,
+		gasRequired,
+		storageDeposit,
 	};
 }
 
