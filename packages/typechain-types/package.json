@@ -1,6 +1,6 @@
 {
   "name": "@arthswap/typechain-types",
-  "version": "0.0.24",
+  "version": "0.0.0",
   "description": "Types and utility function for TypeChain",
   "repository": {
     "type": "git",
