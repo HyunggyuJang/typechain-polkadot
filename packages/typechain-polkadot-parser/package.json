@@ -1,5 +1,5 @@
 {
-  "name": "@727-ventures/typechain-polkadot-parser",
+  "name": "@HyunggyuJang/typechain-polkadot-parser",
   "version": "0.3.6",
   "description": "Parser that can generate typescript definitions from ABI of the contract",
   "scripts": {

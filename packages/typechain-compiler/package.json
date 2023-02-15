@@ -1,5 +1,5 @@
 {
-  "name": "@727-ventures/typechain-compiler",
+  "name": "@HyunggyuJang/typechain-compiler",
   "version": "0.5.15",
   "description": "Util to test and compile your rust project",
   "bin": {
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Supercolony-net/typechain-polkadot#readme",
   "dependencies": {
-    "@727-ventures/typechain-polkadot": "0.6.10",
+    "@HyunggyuJang/typechain-polkadot": "0.6.10",
     "@types/consola": "^2.2.5",
     "@types/yargs": "^17.0.10",
     "chalk": "^4.1.0",

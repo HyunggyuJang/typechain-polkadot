@@ -19,8 +19,8 @@
 	},
 	"dependencies": {
 		"lerna": "^5.1.8",
-		"@727-ventures/typechain-polkadot": "file:packages/typechain-polkadot",
-		"@727-ventures/typechain-types": "file:packages/typechain-types",
+		"@HyunggyuJang/typechain-polkadot": "file:packages/typechain-polkadot",
+		"@HyunggyuJang/typechain-types": "file:packages/typechain-types",
 		"typedoc": "^0.23.9",
 		"@types/bn.js": "^5.1.0",
 		"@types/eslint": "^8.4.3",
