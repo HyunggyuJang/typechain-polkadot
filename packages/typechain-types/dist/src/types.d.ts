@@ -9,6 +9,7 @@ export interface GasLimit {
      * Defaults to `-1`
      */
     gasLimit?: WeightV2 | null;
+    storageDepositLimit?: bigint | BN | string | number;
 }
 export interface GasLimitAndValue extends GasLimit {
     /**
@@ -24,9 +25,7 @@ export interface GasLimitAndRequiredValue extends GasLimit {
      */
     value: bigint | BN | string | number;
 }
-export interface ConstructorOptions extends GasLimitAndValue {
-    storageDepositLimit?: bigint | BN | string | number;
-}
+export type ConstructorOptions = GasLimitAndValue;
 export interface ErrorWithTexts {
     texts?: string[];
 }

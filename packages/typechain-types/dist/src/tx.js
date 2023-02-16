@@ -137,6 +137,10 @@ function _signAndSend(registry, extrinsic, signer, eventHandler, signerOptions) 
                             });
                             if (!result.isError && !result.dispatchError) {
                                 actionStatus.result = result;
+                                actionStatus.wait = new Promise(function (resolve) {
+                                    if (result.status.isFinalized)
+                                        resolve();
+                                });
                                 resolve(actionStatus);
                             }
                             else {

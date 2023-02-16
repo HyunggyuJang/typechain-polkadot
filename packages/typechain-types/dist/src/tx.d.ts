@@ -6,6 +6,7 @@ import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiPromise, SubmittableResult } from "@polkadot/api";
 import type { EventRecord } from "@polkadot/api/submittable";
 type SignAndSendSuccessResponse = {
+    wait: Promise<void>;
     from: string;
     txHash?: string;
     blockHash?: string;
