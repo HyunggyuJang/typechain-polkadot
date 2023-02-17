@@ -122,22 +122,23 @@ export async function _signAndSend(
 		finalize = resolve;
 		finallyRejected = reject;
 	});
-	return new Promise((resolve, reject) => {
-		const actionStatus = {
+	let resolve: Function, reject: Function;
+	const resultPromise = new Promise<SignAndSendSuccessResponse>((_resolve, _reject) => {
+		resolve = _resolve;
+		reject = _reject;
+	});
+	const actionStatus = {
 			from: signerAddress.toString(),
 			txHash: extrinsic.hash.toHex(),
-		} as SignAndSendSuccessResponse;
-
-		extrinsic
+	} as SignAndSendSuccessResponse;
+	try {
+		const unsub = await extrinsic
 			.signAndSend(
 				signerOptions ? signerAddress : signer,
 				{ nonce: -1, ...signerOptions },
 				(result: SubmittableResult) => {
-					if (result.status.isInBlock) {
-						actionStatus.blockHash = result.status.asInBlock.toHex();
-					}
-
 					if (result.status.isFinalized || result.status.isInBlock) {
+						actionStatus.blockHash = result.status.asInBlock.toHex();
 						actionStatus.events = eventHandler(result.events);
 
 						result.events
@@ -148,7 +149,10 @@ export async function _signAndSend(
 							actionStatus.result = result;
 							actionStatus.wait = wait;
 							resolve(actionStatus);
-							if (result.status.isFinalized) finalize()
+							if (result.status.isFinalized) {
+								finalize();
+								unsub();
+							}
 						} else {
 							let message = 'Transaction failed';
 
@@ -163,22 +167,14 @@ export async function _signAndSend(
 								finallyRejected({ error: message });
 							}
 						}
-					} else if (result.isError) {
-						actionStatus.error = {
-							data: result,
-						};
-						actionStatus.events = undefined;
-
-						reject(actionStatus);
 					}
 				}
 			)
-			.catch((error: any) => {
-				actionStatus.error = {
-					message: error.message,
-				};
-
-				reject(actionStatus);
-			});
-	});
+	} catch (error) {
+		actionStatus.error = {
+			message: error.message,
+		};
+		reject(actionStatus);
+	}
+	return resultPromise
 }
