@@ -86,7 +86,7 @@ export async function queryJSON<T>(
 		value: handler(output.toJSON()),
 		gasConsumed,
 		gasRequired,
-		storageDeposit
+		storageDeposit,
 	};
 }
 
@@ -125,7 +125,7 @@ export async function queryOkJSON<T>(
 		value: handler(_value),
 		gasConsumed,
 		gasRequired,
-		storageDeposit
+		storageDeposit,
 	};
 }
 

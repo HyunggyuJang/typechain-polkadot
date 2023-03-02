@@ -28,7 +28,7 @@ import {
 } from './query';
 import type {
 	SubmittableExtrinsic,
-	SignerOptions
+	SignerOptions,
 } from '@polkadot/api/submittable/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Registry } from '@polkadot/types-codec/types';
@@ -128,8 +128,8 @@ export async function _signAndSend(
 		reject = _reject;
 	});
 	const actionStatus = {
-			from: signerAddress.toString(),
-			txHash: extrinsic.hash.toHex(),
+		from: signerAddress.toString(),
+		txHash: extrinsic.hash.toHex(),
 	} as SignAndSendSuccessResponse;
 	try {
 		const unsub = await extrinsic
@@ -138,7 +138,9 @@ export async function _signAndSend(
 				{ nonce: -1, ...signerOptions },
 				(result: SubmittableResult) => {
 					if (result.status.isFinalized || result.status.isInBlock) {
-						actionStatus.blockHash = result.status.asInBlock.toHex();
+						actionStatus.blockHash = result.status.isInBlock
+							? result.status.asInBlock.toHex()
+							: result.status.asFinalized.toHex();
 						actionStatus.events = eventHandler(result.events);
 
 						result.events
@@ -169,12 +171,12 @@ export async function _signAndSend(
 						}
 					}
 				}
-			)
+			);
 	} catch (error) {
 		actionStatus.error = {
 			message: error.message,
 		};
 		reject(actionStatus);
 	}
-	return resultPromise
+	return resultPromise;
 }
