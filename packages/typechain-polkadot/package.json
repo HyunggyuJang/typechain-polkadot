@@ -1,6 +1,6 @@
 {
   "name": "@arthswap/typechain-polkadot",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "start": "ts-node index.ts --in artifacts --out out",
     "lint": "eslint \"{src,tests}/**/*.{js,jsx,ts,tsx}\"",
@@ -37,7 +37,7 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "@arthswap/typechain-types": "^0.0.5",
+    "@arthswap/typechain-types": "^0.0.6",
     "@types/bn.js": "^5.1.0",
     "@types/eslint": "^8.4.3",
     "@types/jest": "^27.5.2",
