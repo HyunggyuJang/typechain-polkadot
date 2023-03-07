@@ -51,7 +51,7 @@ export default class Methods {
 		__options: {{#if payable}}GasLimitAndRequiredValue{{else}}GasLimit{{/if}},
 	){{{buildReturnType this}}}{
 		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}",
-			{{/ifTx}}[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options{{{buildWrapper this}}});
+			[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options{{{buildWrapper this}}});
 	}
 
 {{/each}}
