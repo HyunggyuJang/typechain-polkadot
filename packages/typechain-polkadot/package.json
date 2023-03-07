@@ -1,6 +1,6 @@
 {
   "name": "@arthswap/typechain-polkadot",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "scripts": {
     "start": "ts-node index.ts --in artifacts --out out",
     "lint": "eslint \"{src,tests}/**/*.{js,jsx,ts,tsx}\"",
@@ -21,7 +21,7 @@
   },
   "engineStrict": true,
   "dependencies": {
-    "@arthswap/typechain-polkadot-parser": "^0.0.3",
+    "@arthswap/typechain-polkadot-parser": "^0.0.4",
     "@polkadot/api": "^9.14.2",
     "@polkadot/api-contract": "^9.14.2",
     "@polkadot/keyring": "^10.4.2",
@@ -39,7 +39,7 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "@arthswap/typechain-types": "^0.0.8",
+    "@arthswap/typechain-types": "^0.0.9",
     "@types/bn.js": "^5.1.0",
     "@types/eslint": "^8.4.3",
     "@types/jest": "^27.5.2",
@@ -50,8 +50,8 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "hjson": "^3.2.2",
-    "ts-jest": "^28.0.3",
     "jest": "^28.0.3",
+    "ts-jest": "^28.0.3",
     "typescript": "^4.7.4"
   },
   "author": "Supercolony-net",
