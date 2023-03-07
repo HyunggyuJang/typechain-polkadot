@@ -19,7 +19,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import * as FsExtraAPI from "fs-extra";
 import PathAPI from "path";
 import FsAPI from "fs";
 
@@ -34,28 +33,4 @@ export function writeFileSync(absPathToBase : string, relFilePath : string, cont
 		PathAPI.resolve( absPathToBase, `./${relFilePath}` ),
 		contents
 	);
-}
-
-/**
- * Generates a directories' hierarchy for the given path
- * @param absPathToOutput - The absolute path to the output directory
- */
-export function generateProjectStructure(absPathToOutput: string) {
-	assureDirExists(absPathToOutput, '');
-	assureDirExists(absPathToOutput, 'shared');
-	FsExtraAPI.copySync(
-		PathAPI.resolve(__dirname, '../templates/raw/shared'),
-		PathAPI.resolve(absPathToOutput, 'shared')
-	);
-	// assureDirExists(absPathToOutput, "query");
-	// assureDirExists(absPathToOutput, "build-extrinsic");
-	// assureDirExists(absPathToOutput, "tx-sign-and-send");
-	// assureDirExists(absPathToOutput, "mixed-methods");
-	// assureDirExists(absPathToOutput, "contracts");
-	// assureDirExists(absPathToOutput, "types-arguments");
-	// assureDirExists(absPathToOutput, "types-returns");
-	// assureDirExists(absPathToOutput, "constructors");
-	// assureDirExists(absPathToOutput, "data");
-	// assureDirExists(absPathToOutput, "event-types");
-	// assureDirExists(absPathToOutput, "events");
 }

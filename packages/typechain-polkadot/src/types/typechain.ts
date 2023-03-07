@@ -1,5 +1,5 @@
 import {TypechainPlugin} from "./interfaces";
-import {assureDirExists, generateProjectStructure} from "../utils/directories";
+import {assureDirExists} from "../utils/directories";
 import FsAPI from "fs";
 import PathAPI from "path";
 import {preprocessABI} from "../utils/abi";
@@ -31,7 +31,7 @@ export default class TypechainPolkadot {
 		absPathToABIs: string,
 		absPathToOutput: string
 	) {
-		generateProjectStructure(absPathToOutput);
+		assureDirExists(absPathToOutput, '');
 
 		for (const plugin of this.plugins) {
 			if (plugin.beforeRun) {
