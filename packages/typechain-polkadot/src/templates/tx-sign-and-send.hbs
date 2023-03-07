@@ -8,10 +8,6 @@ import type { GasLimit, GasLimitAndRequiredValue, Result } from '@arthswap/typec
 import { txSignAndSend } from '@arthswap/typechain-types';
 import type * as ArgumentTypes from '../types-arguments/{{{fileName}}}';
 import type BN from 'bn.js';
-// @ts-ignore
-import type {EventRecord} from "@polkadot/api/submittable";
-import {decodeEvents} from "../shared/utils";
-import { EVENT_TYPE } from "../events/{{{fileName}}}";
 {{#if additionalImports.length}}
 {{#each additionalImports}}
 import { {{#each values}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}} } from '{{{path}}}';
@@ -47,9 +43,8 @@ export default class Methods {
 		__options ? : {{#if payable}}GasLimitAndRequiredValue{{else}}GasLimit{{/if}},
 		__signerOptions ? : Partial<SignerOptions>,
 	){{{buildReturnType this}}}{
-		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_TYPE);
-		}, [{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options, __signerOptions);
+		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}",
+		[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options, __signerOptions);
 	}
 
 {{/each}}

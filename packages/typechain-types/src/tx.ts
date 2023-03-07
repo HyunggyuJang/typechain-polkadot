@@ -20,6 +20,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import type { ContractPromise } from "@polkadot/api-contract";
+import type { DecodedEvent } from "@polkadot/api-contract/types";
 import type {
 	RequestArgumentType, GasLimitAndValue, MethodDoesntExistError,
 } from './types';
@@ -32,24 +33,20 @@ import type {
 } from '@polkadot/api/submittable/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Registry } from '@polkadot/types-codec/types';
-import type { ApiPromise, SubmittableResult } from "@polkadot/api";
-// @ts-ignore
-import type { EventRecord } from "@polkadot/api/submittable";
-import { TypeTS } from "@arthswap/typechain-polkadot-parser/src/types/TypeInfo";
+import type { ApiPromise } from "@polkadot/api";
+import type { ContractSubmittableResult } from "@polkadot/api-contract/base/Contract";
 
 type SignAndSendSuccessResponse = {
 	wait: Promise<{ error?: string }>;
 	from: string;
 	txHash?: string;
 	blockHash?: string;
-	result?: SubmittableResult;
+	result?: ContractSubmittableResult;
 	error?: {
 		message?: any;
 		data?: any;
 	};
-	events?: {
-		[index: string]: any;
-	};
+	events?: DecodedEvent[];
 };
 
 export type {
@@ -61,9 +58,6 @@ export async function txSignAndSend(
 	nativeContract: ContractPromise,
 	keyringPair: KeyringPair,
 	title: string,
-	eventHandler: (event: EventRecord[]) => {
-		[index: string]: any;
-	},
 	args?: readonly RequestArgumentType[],
 	gasLimitAndValue?: GasLimitAndValue,
 	signerOptions?: Partial<SignerOptions>
@@ -74,7 +68,7 @@ export async function txSignAndSend(
 		nativeAPI, nativeContract,
 		title, args, _gasLimitAndValue,
 	);
-	return _signAndSend(nativeAPI.registry, submittableExtrinsic, keyringPair, eventHandler, signerOptions);
+	return _signAndSend(nativeAPI.registry, submittableExtrinsic, keyringPair, signerOptions);
 }
 
 export function buildSubmittableExtrinsic(
@@ -111,9 +105,6 @@ export async function _signAndSend(
 	registry: Registry,
 	extrinsic: SubmittableExtrinsic<'promise'>,
 	signer: KeyringPair,
-	eventHandler: (event: EventRecord[]) => {
-		[index: string]: any;
-	},
 	signerOptions?: Partial<SignerOptions>
 ): Promise<SignAndSendSuccessResponse> {
 	const signerAddress = signer.address;
@@ -136,17 +127,12 @@ export async function _signAndSend(
 			.signAndSend(
 				signerOptions ? signerAddress : signer,
 				{ nonce: -1, ...signerOptions },
-				(result: SubmittableResult) => {
+				(result: ContractSubmittableResult) => {
 					if (result.status.isFinalized || result.status.isInBlock) {
 						actionStatus.blockHash = result.status.isInBlock
 							? result.status.asInBlock.toHex()
 							: result.status.asFinalized.toHex();
-						actionStatus.events = eventHandler(result.events);
-
-						result.events
-							.filter(
-								({ event: { section } }: any): boolean => section === 'system'
-							);
+						actionStatus.events = result.contractEvents;
 						if (!result.isError && !result.dispatchError) {
 							actionStatus.result = result;
 							actionStatus.wait = wait;
@@ -164,7 +150,6 @@ export async function _signAndSend(
 								actionStatus.error = {
 									message,
 								};
-
 								reject(actionStatus);
 								finallyRejected({ error: message });
 							}

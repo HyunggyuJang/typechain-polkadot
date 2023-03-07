@@ -26,7 +26,7 @@ import type {
 	RequestArgumentType, GasLimitAndValue,
 	QueryCallError, QueryOkCallError,
 } from './types';
-import {Result, ResultBuilder, ReturnNumber} from "./types";
+import {Result, ReturnNumber} from "./types";
 import {Weight, WeightV2, StorageDeposit} from '@polkadot/types/interfaces';
 import {ApiPromise} from "@polkadot/api";
 import { BN_ONE, BN_ZERO, BN_HUNDRED } from '@polkadot/util';
@@ -136,12 +136,10 @@ export async function queryOutput(
 	api: ApiPromise,
 	nativeContract : ContractPromise,
 	callerAddress : string,
-	//
 	title : string,
 	args ? : readonly RequestArgumentType[],
 	gasLimitAndValue ? : GasLimitAndValue,
 ) {
-	const contractAddress = nativeContract.address.toString();
 	if (nativeContract.query[title] == null) {
 		const error : QueryCallError = {
 			issue: 'METHOD_DOESNT_EXIST',
@@ -183,25 +181,16 @@ export async function queryOutput(
 		storageDeposit,
 	} = response;
 
-	const resValueStr = output ? output.toString() : null;
-	const resValueJSON = output ? output.toJSON() : null;
-
-	if(result.isErr) error = {
+	if(result.isErr) throw {
 		issue: 'FAIL_AFTER_CALL::IS_ERROR',
 		_resultIsOk: result.isOk,
 		_asError: result.isErr ? result.asErr : undefined,
 	};
 
-	if(result.isOk === false) error = {
+	if(result.isOk === false) throw {
 		issue: 'FAIL_AFTER_CALL::RESULT_NOT_OK',
 		_asError: result.isErr ? result.asErr : undefined,
 	};
-
-	if(output == null) error = {
-		issue: 'OUTPUT_IS_NULL',
-	};
-
-	if(error) throw error;
 
 	return {
 		output: output!,
