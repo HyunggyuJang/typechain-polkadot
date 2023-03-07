@@ -44,7 +44,7 @@ export default class Methods {
 		__signerOptions ? : Partial<SignerOptions>,
 	){{{buildReturnType this}}}{
 		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}",
-		[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options, __signerOptions);
+			[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options, __signerOptions);
 	}
 
 {{/each}}

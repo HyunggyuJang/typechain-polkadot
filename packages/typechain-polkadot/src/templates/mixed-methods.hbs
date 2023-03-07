@@ -13,9 +13,6 @@ import type BN from 'bn.js';
 import {TYPE} from "../query/{{{fileName}}}"
 //@ts-ignore
 import {ReturnNumber} from '@arthswap/typechain-types';
-// @ts-ignore
-import type {EventRecord} from "@polkadot/api/submittable";
-import {decodeEvents} from "../shared/utils";
 {{#if additionalImports.length}}
 {{#each additionalImports}}
 import { {{#each values}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}} } from '{{{path}}}';
@@ -53,9 +50,8 @@ export default class Methods {
 	{{/each}}
 		__options: {{#if payable}}GasLimitAndRequiredValue{{else}}GasLimit{{/if}},
 	){{{buildReturnType this}}}{
-		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}", {{#ifTx this}}(events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, "{{../fileName}}");
-		}, {{/ifTx}}[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options{{{buildWrapper this}}});
+		return {{{buildReturn this}}} "{{{toCamelCaseForFunctions originalName}}}",
+			{{/ifTx}}[{{#each args}}{{{name}}}{{#unless @last}}, {{/unless}}{{/each}}], __options{{{buildWrapper this}}});
 	}
 
 {{/each}}
