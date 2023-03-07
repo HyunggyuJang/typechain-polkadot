@@ -154,9 +154,9 @@ Add the following to your `package.json`:
 	"@types/node": "^17.0.34",
 	"ts-node": "^10.7.0",
 	"typescript": "^4.6.4",
-	"@polkadot/api": "^9.13.4",
-	"@polkadot/api-contract": "^9.13.4",
-	"@polkadot/keyring": "^9.13.4",
+	"@polkadot/api": "^9.14.2",
+	"@polkadot/api-contract": "^9.14.2",
+	"@polkadot/keyring": "^10.4.2",
 	"@types/bn.js": "^5.1.0"
 }
 ```
