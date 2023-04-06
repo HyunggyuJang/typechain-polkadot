@@ -92,7 +92,7 @@ function main() {
 
 			logger.log(chalk.magenta(`======== Compiling ${contractName} ========`));
 
-			const cmd = `cargo +${toolchain} contract ${isRelease ? "build --release" : "build"} --manifest-path ${tomlFile} ${config.skipLinting ? '--skip-linting' : ''} ${features.length ? '--features ' + features.join(',') : ''}`;
+			const cmd = `cargo +${toolchain} contract ${isRelease ? "build --release" : "build"} --manifest-path ${tomlFile} ${config.skipLinting ? '--skip-linting' : ''} ${features[0] ? '--features ' + features.join(',') : ''}`;
 
 			execSync(cmd);
 
