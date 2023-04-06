@@ -46,6 +46,14 @@ function main() {
 			type: "boolean",
 			default: false,
 		})
+		.option("features", {
+			alias: ["f"],
+			demandOption: "Please, specify, what features you want to enable",
+			description: "Features to compile with",
+			type: "string",
+			default: "",
+		})
+		.array("features")
 		.option("toolchain", {
 			alias: ["toolchain"],
 			demandOption: "Please, specify, what toolchain you want to use (nightly, stable)",
@@ -64,6 +72,7 @@ function main() {
 	const isNoCompile = argv.noCompile;
 	const isNoTypechain = argv.noTypechain;
 	const toolchain = argv.toolchain;
+	const features = argv.features;
 
 	const configStr = FsAPI.readFileSync(absPathToConfig, "utf8");
 	const config = parseConfig(configStr);
@@ -83,7 +92,7 @@ function main() {
 
 			logger.log(chalk.magenta(`======== Compiling ${contractName} ========`));
 
-			const cmd = `cargo +${toolchain} contract ${isRelease ? "build --release" : "build"} --manifest-path ${tomlFile} ${config.skipLinting ? '--skip-linting' : ''}`;
+			const cmd = `cargo +${toolchain} contract ${isRelease ? "build --release" : "build"} --manifest-path ${tomlFile} ${config.skipLinting ? '--skip-linting' : ''} ${features.length ? '--features ' + features.join(',') : ''}`;
 
 			execSync(cmd);
 
