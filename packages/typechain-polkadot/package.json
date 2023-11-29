@@ -58,7 +58,7 @@
   "homepage": "https://github.com/Supercolony-net/typechain-polkadot#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HyungyuJang/typechain-polkadot.git"
+    "url": "git+https://github.com/Supercolony-net/typechain-polkadot.git"
   },
   "bugs": {
     "url": "https://github.com/Supercolony-net/typechain-polkadot/issues"
